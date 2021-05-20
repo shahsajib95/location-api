@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Location Api</title>
+</head>
+
+<body class="d-flex h-100 text-center text-white bg-secondary" data-new-gr-c-s-check-loaded="14.1012.0"
+    data-gr-ext-installed=""
+    style="background-image: url('./img/loc.png'); background-repeat: no-repeat; background-size: 80%; background-position: center;">
+
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column"">
+        <header class=" mb-auto">
+        <div>
+            <h3>Location</h3>
+        </div>
+        </header>
+
+        <div class="d-flex align-items-center justify-content-center" style="height: 80vh;">
+            <div class="p-2 bd-highlight col-example">
+                <p class="lead">Know Your Location, <span id="name"></span></p>
+                <p></p>
+                <h1>Your location is: <span id="location"></span></h1>
+                <a href="http://shahsajib.me/" target="_blank"
+                    class="btn btn-lg  fw-bold border-white bg-white mt-5">Find more</a>
+            </div>
+        </div>
+
+        <footer class="mt-auto text-white-50">
+            <p>Find me <a href="http://shahsajib.me/" target="_blank" class="text-white">ShahSajib</a></p>
+        </footer>
+    </div>
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                const { latitude, longitude } = position.coords
+                fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=8b13f6cc06d448ec98e4ae678a84ecd5`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const setLocation = document.getElementById("location")
+                        setLocation.innerHTML = data.results[0].components.city
+                    })
+            })
+        }
+        const url = window.location.href;
+        const param = url.split('?')[1].split('=');
+
+        if (param) {
+            const setName = document.getElementById("name")
+            setName.innerHTML = param[1]
+        }
+    </script>
+</body>
+
+</html>
