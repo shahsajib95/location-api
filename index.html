@@ -23,10 +23,18 @@
 
         <div class="d-flex align-items-center justify-content-center" style="height: 80vh;">
             <div class="p-2 bd-highlight col-example">
-                <h1>Hello, , <span id="name"></span></h1>
+                <h1 id="name"></h1>
                 <p class="lead">Know Your Location</p>
-                <p><a href="https://shahsajib95.github.io/location-api?h1=Shah" class="text-white">https://shahsajib95.github.io/location-api?h1=Shah</a></p>
-                <h1>Your location is: <span id="location"></span></h1>
+                <p><a href="https://shahsajib95.github.io/location-api?h1=Shah"
+                        class="text-white">https://shahsajib95.github.io/location-api?h1=Shah</a></p>
+                <h1>Your location is:
+                    <span id="load">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </span>
+                    <span id="location"></span>
+                </h1>
                 <a href="http://shahsajib.me/" target="_blank"
                     class="btn btn-lg  fw-bold border-white bg-white mt-5">Find more</a>
             </div>
@@ -45,8 +53,10 @@
             navigator.geolocation.getCurrentPosition(function (position) {
                 const { latitude, longitude } = position.coords
                 fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=8b13f6cc06d448ec98e4ae678a84ecd5`)
-                    .then(res => res.json())
-                    .then(data => {
+                .then(res => res.json())
+                .then(data => {
+                        const setLoad = document.getElementById("load")
+                        setLoad.innerHTML = ``
                         const setLocation = document.getElementById("location")
                         setLocation.innerHTML = data.results[0].components.city
                     })
@@ -57,7 +67,7 @@
 
         if (param) {
             const setName = document.getElementById("name")
-            setName.innerHTML = param[1]
+            setName.innerHTML = `Hello, ${param[1]}`
         }
     </script>
 </body>
